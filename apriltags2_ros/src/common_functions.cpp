@@ -252,6 +252,7 @@ AprilTagDetectionArray TagDetector::detectTags (
     if (!findStandaloneTagDescription(tagID, standaloneDescription,
                                       !is_part_of_bundle))
     {
+std::cout << "YT6666" << std::endl;
       continue; 
     }
 
@@ -738,6 +739,7 @@ bool TagDetector::findStandaloneTagDescription (
       ROS_WARN_THROTTLE(10.0, "Requested description of standalone tag ID [%d],"
                         " but no description was found...",id);
     }
+    std::cout << "YT: 777" << std::endl;
     return false;
   }
   descriptionContainer = &(description_itr->second);

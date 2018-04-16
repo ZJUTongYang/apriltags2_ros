@@ -42,8 +42,9 @@ ContinuousDetector::ContinuousDetector (ros::NodeHandle& nh,
     it_(nh)
 {
   camera_image_subscriber_ =
-      it_.subscribeCamera("image_rect", 1,
-                          &ContinuousDetector::imageCallback, this);
+//      it_.subscribeCamera("image_rect", 1,
+//                          &ContinuousDetector::imageCallback, this);
+        it_.subscribeCamera("/downward_cam/camera/image", 1, &ContinuousDetector::imageCallback, this);
   tag_detections_publisher_ =
       nh.advertise<AprilTagDetectionArray>("tag_detections", 1);
   if (draw_tag_detections_image_)
@@ -69,16 +70,24 @@ void ContinuousDetector::imageCallback (
     return;
   }
 
-  // Publish detected tags in the image by AprilTags 2
-  tag_detections_publisher_.publish(
-      tag_detector_.detectTags(cv_image_,camera_info));
+  //YT if cannot find tags, then do not send the message!!!
+  apriltags2_ros::AprilTagDetectionArray Arraytemp;
+  Arraytemp = tag_detector_.detectTags(cv_image_, camera_info);
+
+  if(Arraytemp.detections.size()!=0)
+  {
+      //Publish detected tags in the image by AprilTags 2
+//    tag_detections_publisher_.publish(tag_detector_.detectTags(cv_image_,camera_info));
+      tag_detections_publisher_.publish(Arraytemp);
 
   // Publish the camera image overlaid by outlines of the detected tags and
   // their payload values
-  if (draw_tag_detections_image_)
-  {
-    tag_detector_.drawDetections(cv_image_);
-    tag_detections_image_publisher_.publish(cv_image_->toImageMsg());
+  
+      if (draw_tag_detections_image_)
+      {
+        tag_detector_.drawDetections(cv_image_);
+        tag_detections_image_publisher_.publish(cv_image_->toImageMsg());
+      }
   }
 }
 
