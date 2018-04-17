@@ -44,6 +44,7 @@
 #define APRILTAGS2_ROS_CONTINUOUS_DETECTOR_H
 
 #include "apriltags2_ros/common_functions.h"
+#include "tf/transform_broadcaster.h"
 
 namespace apriltags2_ros
 {
@@ -65,6 +66,7 @@ class ContinuousDetector
   image_transport::CameraSubscriber camera_image_subscriber_;
   image_transport::Publisher tag_detections_image_publisher_;
   ros::Publisher tag_detections_publisher_;
+  tf::TransformBroadcaster br;
 };
 
 } // namespace apriltags2_ros

@@ -30,6 +30,7 @@
  */
 
 #include "apriltags2_ros/continuous_detector.h"
+#include "tf/transform_broadcaster.h"
 
 namespace apriltags2_ros
 {
@@ -79,6 +80,17 @@ void ContinuousDetector::imageCallback (
       //Publish detected tags in the image by AprilTags 2
 //    tag_detections_publisher_.publish(tag_detector_.detectTags(cv_image_,camera_info));
       tag_detections_publisher_.publish(Arraytemp);
+
+        //YT send out a tf transform(robot pose in the target frame)
+        tf::Transform transform;
+        transform.setOrigin( tf::Vector3( Arraytemp.detections.at(0).pose.pose.pose.position.x, 
+                                          Arraytemp.detections.at(0).pose.pose.pose.position.y, 
+                                          Arraytemp.detections.at(0).pose.pose.pose.position.z ));
+        transform.setRotation( tf::Quaternion( Arraytemp.detections.at(0).pose.pose.pose.orientation.x, 
+                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.y, 
+                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.z, 
+                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.w ));
+        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_footprint", "target"));
 
   // Publish the camera image overlaid by outlines of the detected tags and
   // their payload values
