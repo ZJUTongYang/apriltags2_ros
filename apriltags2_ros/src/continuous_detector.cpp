@@ -82,15 +82,15 @@ void ContinuousDetector::imageCallback (
       tag_detections_publisher_.publish(Arraytemp);
 
         //YT send out a tf transform(robot pose in the target frame)
-        tf::Transform transform;
-        transform.setOrigin( tf::Vector3( Arraytemp.detections.at(0).pose.pose.pose.position.x, 
-                                          Arraytemp.detections.at(0).pose.pose.pose.position.y, 
-                                          Arraytemp.detections.at(0).pose.pose.pose.position.z ));
-        transform.setRotation( tf::Quaternion( Arraytemp.detections.at(0).pose.pose.pose.orientation.x, 
-                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.y, 
-                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.z, 
-                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.w ));
-        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_footprint", "target"));
+//        tf::Transform transform;
+//        transform.setOrigin( tf::Vector3( Arraytemp.detections.at(0).pose.pose.pose.position.x, 
+//                                          Arraytemp.detections.at(0).pose.pose.pose.position.y, 
+//                                          Arraytemp.detections.at(0).pose.pose.pose.position.z ));
+//        transform.setRotation( tf::Quaternion( Arraytemp.detections.at(0).pose.pose.pose.orientation.x, 
+//                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.y, 
+//                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.z, 
+//                                               Arraytemp.detections.at(0).pose.pose.pose.orientation.w ));
+//        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_footprint", "target"));
 
   // Publish the camera image overlaid by outlines of the detected tags and
   // their payload values

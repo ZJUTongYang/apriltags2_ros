@@ -66,7 +66,6 @@ class ContinuousDetector
   image_transport::CameraSubscriber camera_image_subscriber_;
   image_transport::Publisher tag_detections_image_publisher_;
   ros::Publisher tag_detections_publisher_;
-  tf::TransformBroadcaster br;
 };
 
 } // namespace apriltags2_ros
